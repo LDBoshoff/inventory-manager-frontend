@@ -1,0 +1,53 @@
+body {
+    background-color: rgb(82, 171, 82);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+}
+
+.entryForm {
+    width: 400px;
+    height: auto;
+    padding: 20px;
+    background-color: rgb(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    border-radius: 5px;
+}
+
+h1, p {
+    margin: 10px 0;
+}
+
+.input-lables {
+    display: block;
+    margin: 5px 0;
+} 
+
+input {
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.centre-text {
+    text-align: center;
+}
+
+button {
+   display: block;
+   margin: 0 auto;
+}
+
+.otherForm {
+    font-style: italic;
+}
+
+.otherForm:hover {
+    font-weight: bold;
+}

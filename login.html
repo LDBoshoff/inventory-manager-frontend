@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <form id="loginForm" class="entryForm">
+        <div id="registrationSuccessMessage" style="display: none;">
+            Account registered successfully! You can now log in.
+        </div>
+        <h1 class="formHeader centre-text">Login</h1>
+        
+        <label class="input-lables" for="email">Email:</label>
+        <input class="input-lables" type="email" id="email" name="email" placeholder="example@example.com" required>
+        
+        <label class="input-lables" for="password">Password:</label>
+        <input class="input-lables" type="password" id="password" name="password" placeholder="Password" required>
+        
+        <button type="submit">Login</button>
+        <p class="centre-text" id="loginToggleText">Don't have an account? <span class="otherForm" id="showRegisterForm">Sign up</span></p>
+    </form>
+    
+
+    <form id="registerForm" class="entryForm" style="display: none;">
+        <h1 class="formHeader centre-text" >Create a new account</h1>
+
+        <label class="input-lables" for="firstName">Name:</label>
+        <input class="input-lables" type="text" id="firstName" name="firstName" placeholder="John" required>
+
+        <label class="input-lables" for="lastName">Surname:</label>
+        <input class="input-lables" type="text" id="lastName" name="lastName" placeholder="Doe" required>
+        
+        <label class="input-lables" for="email">Email:</label>
+        <input class="input-lables" type="email" id="email" name="email" placeholder="example@example.com" required>
+        
+        <label class="input-lables" for="password">Password:</label>
+        <input class="input-lables" type="password" id="password" name="password" placeholder="Password" required>
+ 
+        <button type="submit">Sign Up</button>
+        <p class="centre-text" id="registerToggleText" style="display: none;">Already have an account? <span class="otherForm" id="showLoginForm">Login</span></p>
+    </form>
+    
+
+    <script src="login.js"></script>
+</body>
+</html>

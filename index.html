@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome to Your User Dashboard</h1>
+    </header>
+    <main>
+        <section class="stores">
+            <h2>Your Stores</h2>
+            <div id="storeList" class="store-list">
+            </div>
+        </section>
+        <section class="actions">
+            <h2>Actions</h2>
+            <div id="createStoreContainer">
+                <button id="createStore" class="create-store">Create New Store</button>
+                <div id="addStoreContainer" style="display: none;">
+                    <form id="storeForm">
+                        <input type="text" id="storeNameInput" placeholder="Enter store name" required>
+                        <button id="addStore" class="add-store">Add Store</button>
+                    </form>   
+                    <button id="cancelAddStore" class="cancel-store">Cancel</button>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 Your Company</p>
+    </footer>
+    <script src="dashboard.js"></script>
+</body>
+</html>
