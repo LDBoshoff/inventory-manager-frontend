@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
             localStorage.setItem("token", data.token);
         
             // Redirect to the user dashboard or perform other actions
-            window.location.href = "dashboard.html"; // Uncomment this line when you want to redirect
+            window.location.href = "index.html"; // Uncomment this line when you want to redirect
         })
         .catch((error) => {
             console.error("Error:", error);
