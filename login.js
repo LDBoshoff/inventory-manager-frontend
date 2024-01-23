@@ -48,7 +48,8 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .then((response) => {
             if (response.status === 200) {
-                return response.json();
+                // return response.json();
+                return response.text();
             } else if (response.status === 401) {
                 // Unauthorized, handle incorrect credentials
                 console.log("Login failed: Unauthorized");
