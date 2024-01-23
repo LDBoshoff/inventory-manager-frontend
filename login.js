@@ -1,10 +1,13 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const loginForm = document.getElementById("loginForm");
-    const registerForm = document.getElementById("registerForm");
-    const loginToggleText = document.getElementById("loginToggleText");
-    const registerToggleText = document.getElementById("registerToggleText");
-    const showRegisterForm = document.getElementById("showRegisterForm");
-    const showLoginForm = document.getElementById("showLoginForm");
+
+    const loginForm = document.getElementById("loginForm"); // login form
+    const registerForm = document.getElementById("registerForm"); // register form
+
+    const loginToggleText = document.getElementById("loginToggleText"); 
+    const registerToggleText = document.getElementById("registerToggleText"); 
+    
+    const showRegisterForm = document.getElementById("showRegisterForm"); // switch to register form
+    const showLoginForm = document.getElementById("showLoginForm"); // switch to login form
 
         // Show the login form and hide the register form
     showLoginForm.addEventListener("click", function () {
@@ -36,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     
         // Send a POST request to your server
-        fetch("http://localhost:8080/api/login", {
+        fetch("http://localhost:8080/api/users/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -46,14 +49,16 @@ document.addEventListener("DOMContentLoaded", function () {
         .then((response) => {
             if (response.status === 200) {
                 return response.json();
-                // return response.text();
             } else if (response.status === 401) {
                 // Unauthorized, handle incorrect credentials
                 console.log("Login failed: Unauthorized");
+                console.log(response.text());
+
                 throw new Error("Unauthorized");
             } else {
                 // Handle other status codes (e.g., 500 for server error)
                 console.log("Login failed: Server error");
+                console.log(response.text());
                 throw new Error("Server error");
             }
         })
