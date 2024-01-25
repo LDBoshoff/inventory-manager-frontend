@@ -32,13 +32,13 @@ document.addEventListener("DOMContentLoaded", function () {
         
         const formData = new FormData(loginForm);
     
-        // Create an object with the form data
+        // Create a JSON object with the form data
         const loginData = {};
         formData.forEach((value, key) => {
             loginData[key] = value;
         });
     
-        // Send a POST request to your server
+        // Send a POST request backend server to login to user account
         fetch("http://localhost:8080/api/users/login", {
             method: "POST",
             headers: {
@@ -46,12 +46,29 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             body: JSON.stringify(loginData),
         })
+        // Handle the server response
         .then((response) => {
             if (response.status === 200) {
-                // return response.json();
-                return response.text();
+                const authHeader = response.headers.get("Authorization");  // Retrieve the JWT from the response headers
+                // console.log("BEFORE: Token received from backend:", authHeader);
+
+                if (authHeader) { 
+                    const tokenArray = authHeader.split(' ');
+                    
+                    if (tokenArray.length === 2 && tokenArray[0].toLowerCase() === 'bearer') {
+                        const token = tokenArray[1];
+                        // console.log("Token received from backend:", token);
+
+                        localStorage.setItem("token", token); // Store the token in local storage
+                    } else {
+                        console.warn("Unexpected format in Authorization header:", authorizationHeader);
+                    }
+                } else {
+                    console.warn("Authorization header not found in the response.");
+                }
+
+                return response.text(); 
             } else if (response.status === 401) {
-                // Unauthorized, handle incorrect credentials
                 console.log("Login failed: Unauthorized");
                 console.log(response.text());
 
@@ -63,15 +80,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 throw new Error("Server error");
             }
         })
-        .then((data) => {
-            console.log("Message received from backend:", data.message);
-            console.log("Token received from backend:", data.token);
-        
-            // Store the token in local storage
-            localStorage.setItem("token", data.token);
-        
-            // Redirect to the user dashboard or perform other actions
-            window.location.href = "index.html"; // Uncomment this line when you want to redirect
+        .then(data => {
+            console.log("Response received from backend:", data);
+            alert("Successful Login"); // Display successful login message to user
+
+            // Redirect to home page after 2 seconds
+            setTimeout(() => {
+                window.location.href = "index.html";
+            }, 2000); 
         })
         .catch((error) => {
             console.error("Error:", error);
@@ -90,8 +106,10 @@ document.addEventListener("DOMContentLoaded", function () {
             registerData[key] = value;
         });
 
+        console.log(registerData);
+
         // Send a POST request to your server for registration
-        fetch("http://localhost:8080/api/register", {
+        fetch("http://localhost:8080/api/users/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
