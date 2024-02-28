@@ -1,55 +1,67 @@
 let globalStoreId;
 
 document.addEventListener('DOMContentLoaded', () => {
-
     // Attempt to retrieve storeId from localStorage
     globalStoreId = localStorage.getItem("storeId");
     if (!globalStoreId) {
         console.error("Store ID not found. Redirecting to login.");
-        // Redirect to login or handle appropriately
         window.location.href = "login.html"; // Adjust the path as necessary
         return;
     }
-    // localStorage.removeItem("authToken");
-    // localStorage.removeItem("storeId");
+
     fetchStoreDetails();
     fetchAllProducts();
 
-    var modal = document.getElementById("add-product-modal"); // Get modal element
-    var btn = document.getElementById("add-product-btn");// Get button that opens the modal
-    var span = document.getElementsByClassName("close-button")[0];// Get the <span> element that closes the modal
-
-    // When the user clicks the button, open the modal 
-    btn.onclick = function() {
-        modal.style.display = "block";
-    }
-
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
-        modal.style.display = "none";
-    }
+    // When the user clicks the button, open the add product modal 
+    document.getElementById("add-product-btn").onclick = function() {
+        openAddProductModal();
+    };
 
     // When the user clicks anywhere outside of the modal, close it
+    var modal = document.getElementById("modal");
     window.onclick = function(event) {
         if (event.target == modal) {
             modal.style.display = "none";
         }
-    }
+    };
+});
+
+function openAddProductModal() {
+    var modal = document.getElementById("modal");
+    var modalBody = document.getElementById("modal-body");
+
+    modalBody.innerHTML = `
+        <h2>Add Product</h2>
+        <form id="add-product-form">
+            <label for="product-name">Product Name:</label>
+            <input type="text" id="product-name" name="product-name" required>
+            <label for="product-price">Price:</label>
+            <input type="number" id="product-price" name="product-price" required>
+            <label for="product-quantity">Quantity:</label>
+            <input type="number" id="product-quantity" name="product-quantity" required>
+            <button type="submit">Submit</button>
+        </form>
+        <div id="feedback-message" style="display: none;"></div>
+    `;
 
     // Add event listener for form submission to capture input values and send a POST request
     document.getElementById("add-product-form").addEventListener("submit", addProduct);
 
-});
+    // Handle closing the modal with the close button
+    document.querySelector(".close-button").onclick = function() {
+        modal.style.display = "none";
+    };
+
+    modal.style.display = "block"; // Show the modal
+}
 
 function addProduct(event) {
     event.preventDefault(); // Prevent form from submitting normally
 
-    // Capture the product details from the form
     var productName = document.getElementById("product-name").value;
     var productPrice = document.getElementById("product-price").value;
     var productQuantity = document.getElementById("product-quantity").value;
 
-    // Construct the request payload
     var productData = {
         name: productName,
         price: productPrice,
@@ -57,13 +69,11 @@ function addProduct(event) {
         storeId: globalStoreId
     };
 
-    // Send a POST request to the server
     fetch('http://localhost:8080/api/products', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${localStorage.getItem("authToken")}`
-            // Include any other headers your API requires
         },
         body: JSON.stringify(productData)
     })
@@ -75,34 +85,39 @@ function addProduct(event) {
     })
     .then(data => {
         console.log('Success:', data);
-        // Display the success message
-        var feedbackMessage = document.getElementById("feedback-message"); // Assume you have a placeholder for the success message
+        var feedbackMessage = document.getElementById("feedback-message");
         feedbackMessage.textContent = "Product added successfully!";
-        feedbackMessage.style.display = "block"; // Make sure the message is visible
+        feedbackMessage.style.display = "block";
         feedbackMessage.style.color = "green";
 
-        // Use setTimeout to delay the closing of the modal and the refresh of the product list
         setTimeout(() => {
-            // Close the modal
-            var modal = document.getElementById("add-product-modal");
-            modal.style.display = "none";
-
-            // Refresh the product list
-            fetchAllProducts(); // This function needs to be defined in your script
-
-            // Optionally, clear the form fields
-            document.getElementById("product-name").value = '';
-            document.getElementById("product-price").value = '';
-            document.getElementById("product-quantity").value = '';
-
-            // Hide the success message again (optional)
+            document.getElementById("modal").style.display = "none";
+            fetchAllProducts();
             feedbackMessage.style.display = "none";
-        }, 2000); // 2000 milliseconds = 2 seconds
+        }, 2000);
     })
     .catch((error) => {
         console.error('Error:', error);
-        // Handle errors, such as displaying a notification to the user
     });
+}
+
+
+function openProductModal(product) {
+    var modal = document.getElementById("modal");
+    var modalBody = document.getElementById("modal-body");
+
+    modalBody.innerHTML = `
+        <h2>Product Details</h2>
+        <p>Name: ${product.name}</p>
+        <p>Price: ${product.price}</p>
+        <p>Quantity: ${product.quantity}</p>
+    `;
+
+    document.querySelector(".close-button").onclick = function() {
+        modal.style.display = "none";
+    };
+
+    modal.style.display = "block"; // Show the modal
 }
 
 function fetchStoreDetails() {
@@ -170,6 +185,8 @@ function fetchAllProducts() {
         data.products.forEach(product => {
             const li = document.createElement('li');
             li.textContent = `ID: ${product.id}, Name: ${product.name}, Price: ${product.price}, Quantity: ${product.quantity}`;
+            li.setAttribute('data-product-id', product.id);
+            li.addEventListener('click', () => openProductModal(product));
             productList.appendChild(li);
         });
     })
