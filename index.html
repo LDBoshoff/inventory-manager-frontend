@@ -12,7 +12,7 @@
         <h1 id="store-name">Store</h1> <!-- Placeholder, will be set dynamically -->
     </header>
     <main>
-        <section id="store-stats">
+        <section class="store-section" id="store-stats">
             <h2>Store Statistics</h2>
             <div class="stat">
                 <label>Total Sales:</label>
@@ -23,6 +23,31 @@
                 <span id="sales-revenue">$0</span> <!-- Placeholder -->
             </div>
         </section>
+        <section class="store-section" id="product-listing">
+            <h2>Products</h2>
+            <button id="add-product-btn">Add</button>
+            <ul id="products"></ul> <!-- Products will be dynamically inserted here -->
+        </section>
+
+        <div id="add-product-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-button">&times;</span>
+                <h2>Add Product</h2>
+                <form id="add-product-form">
+                    <label for="product-name">Product Name:</label>
+                    <input type="text" id="product-name" name="product-name" required>
+                    <label for="product-price">Price:</label>
+                    <input type="number" id="product-price" name="product-price" required>
+                    <label for="product-quantity">Quantity:</label>
+                    <input type="number" id="product-quantity" name="product-quantity" required>
+                    <button type="submit">Submit</button>
+                </form>
+                <div id="feedback-message" style="display: none;"></div>    
+            </div>
+            
+        </div>
+
+
     </main>
     <footer>
         <p>Dashboard for managing your store.</p>
