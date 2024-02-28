@@ -3,47 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Form</title>
+    <title>Login or Register</title>
     <link rel="stylesheet" href="login.css">
+    <script src="login.js" defer></script>
 </head>
 <body>
-    <form id="loginForm" class="entryForm">
-        <div id="registrationSuccessMessage" class="centre-text" style="display: none;">
-            Account registered successfully! You can now log in.
-        </div>
-        <h1 class="formHeader centre-text">Login</h1>
+    <div class="form-section" id="login-form">
+        <form action="/path-to-your-login-handler" method="post">
+            <h2>Login</h2>
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" name="email" required><br>
+            <label for="password">Password:</label><br>
+            <input type="password" id="password" name="password" required><br>
+            <button type="submit">Login</button>
+            <p class="toggle-text"><a href="javascript:void(0)" id="register-toggle" onclick="toggleForm()">New user? Register account</a></p>
+        </form>
+        <!-- <div id="error-message" style="display: none; color: red;"></div> -->
         
-        <label class="input-lables" for="email">Email:</label>
-        <input class="input-lables" type="email" id="email" name="email" placeholder="example@example.com" required>
-        
-        <label class="input-lables" for="password">Password:</label>
-        <input class="input-lables" type="password" id="password" name="password" placeholder="Password" required>
-        
-        <button type="submit">Login</button>
-        <p class="centre-text" id="loginToggleText">Don't have an account? <span class="otherForm" id="showRegisterForm">Sign up</span></p>
-    </form>
+    </div>
     
+    <div class="form-section" id="register-form">
+        <form action="/path-to-your-registration-handler" method="post">
+            <h2>Register</h2>
+            <label for="first-name">First Name:</label><br>
+            <input type="text" id="first-name" name="first-name" required><br>
+            <label for="last-name">Last Name:</label><br>
+            <input type="text" id="last-name" name="last-name" required><br>
+            <label for="reg-email">Email:</label><br>
+            <input type="email" id="reg-email" name="email" required><br>
+            <label for="reg-password">Password:</label><br>
+            <input type="password" id="reg-password" name="password" required><br>
+            <button type="submit">Register</button>
+            <p class="toggle-text"><a href="javascript:void(0)" id="login-toggle" onclick="toggleForm()">Existing account? Login</a></p>
+        </form>
+    </div>
 
-    <form id="registerForm" class="entryForm" style="display: none;">
-        <h1 class="formHeader centre-text" >Create a new account</h1>
-
-        <label class="input-lables" for="firstName">Name:</label>
-        <input class="input-lables" type="text" id="firstName" name="firstName" placeholder="John" required>
-
-        <label class="input-lables" for="lastName">Surname:</label>
-        <input class="input-lables" type="text" id="lastName" name="lastName" placeholder="Doe" required>
-        
-        <label class="input-lables" for="email">Email:</label>
-        <input class="input-lables" type="email" id="email" name="email" placeholder="example@example.com" required>
-        
-        <label class="input-lables" for="password">Password:</label>
-        <input class="input-lables" type="password" id="password" name="password" placeholder="Password" required>
- 
-        <button type="submit">Sign Up</button>
-        <p class="centre-text" id="registerToggleText" style="display: none;">Already have an account? <span class="otherForm" id="showLoginForm">Login</span></p>
-    </form>
-    
-
-    <script src="login.js"></script>
+    <div id="feedback-message" style="display: none"></div>
 </body>
 </html>
