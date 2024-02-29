@@ -100,6 +100,24 @@ h1, h2 {
     cursor: pointer;
 }
 
+#products {
+    padding: 0;
+}
+
+#products li {
+    border: 2px solid black; /* Adds a 2px solid black border */
+    border-radius: 10px; /* Rounds the corners of the border */
+    padding: 10px; /* Optional: Adds some space inside the border */
+    margin: 10px; /* Optional: Adds some space outside the border */
+    list-style-type: none; /* Optional: Removes the default list item bullet */
+}
+
+#products li:hover {
+    background-color: lightgray; /* Changes the background color when hovering */
+    border-color: darkgray; /* Optionally, changes the border color when hovering */
+}
+  
+
 #feedback-message { 
     text-align: center;
 }
