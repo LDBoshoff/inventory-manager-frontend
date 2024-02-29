@@ -41,8 +41,8 @@ function openAddProductModal() {
             <input type="number" id="product-quantity" name="product-quantity" required>
             <button type="submit">Submit</button>
         </form>
-        <div id="feedback-message" style="display: none;"></div>
-    `;
+        <div id="feedback-message" style="display: none;"></div> 
+    `; // delete feedback message from innerhtml due to being in th
 
     // Add event listener for form submission to capture input values and send a POST request
     document.getElementById("add-product-form").addEventListener("submit", addProduct);
@@ -111,13 +111,49 @@ function openProductModal(product) {
         <p>Name: ${product.name}</p>
         <p>Price: ${product.price}</p>
         <p>Quantity: ${product.quantity}</p>
+        <button id="deleteButton" class="delete-button">Delete Product</button>
+        <div id="feedback-message" style="display: none;"></div> 
     `;
 
     document.querySelector(".close-button").onclick = function() {
         modal.style.display = "none";
     };
+    // // Handling the delete button click
+    document.getElementById("deleteButton").onclick = function() {
+        deleteProduct(product.id);
+    };
 
     modal.style.display = "block"; // Show the modal
+}
+
+function deleteProduct(productId) {
+    fetch(`http://localhost:8080/api/products/${productId}`, {
+        method: "DELETE", // Change this to DELETE to match the backend expectation
+        headers: {
+            "Authorization": `Bearer ${localStorage.getItem("authToken")}`
+        }
+    }).then(response => {
+        if (response.status === 204) {
+            console.log("Product deleted successfully");
+            // Here you can add code to update the UI accordingly
+            // For example, removing the deleted product from a list displayed on the page
+            var feedbackMessage = document.getElementById("feedback-message");
+            feedbackMessage.textContent = "Product deleted successfully!";
+            feedbackMessage.style.display = "block";
+            feedbackMessage.style.color = "green";
+
+            setTimeout(() => {
+                document.getElementById("modal").style.display = "none";
+                feedbackMessage.style.display = "none";
+                fetchAllProducts();
+            }, 2000);
+            
+        } else {
+            console.error("An unexpected error occurred.");
+        }
+    }).catch(error => {
+        console.error('Error:', error);
+    });
 }
 
 function fetchStoreDetails() {
